@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Interface\IPosition.cs" />
+    <Content Include="Class\Position.cs" />
+    <Content Include="Class\Player.cs" />
+    <Content Include="GameManager.cs" />
+    <Content Include="Program.cs" />
+  </ItemGroup>
+</Project>
