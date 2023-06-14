@@ -1,3 +1,4 @@
+using System.Collections;
 using BaseGameInterface;
 namespace BaseGame;
 
@@ -18,22 +19,28 @@ public class GameManager
 		_players?.Add(player, post);
 		_dices?.Add(dice);
 	}
-	public bool AddPlayer(IPlayer player)
+	public bool? AddPlayer(IPlayer player)
 	{
-		if (!_players.ContainsKey(player))
+		if (_players != null)
 		{
-			IPosition post = new Position();
-			_players.Add(player, post);
-			return true;
+			if (!_players.ContainsKey(player))
+			{
+				IPosition post = new Position();
+				_players.Add(player, post);
+				return true;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		return false;
+
 	}
-	public Dictionary<IPlayer, IPosition> GetPlayers() 
+	public Dictionary<IPlayer, IPosition>? GetPlayers()
 	{
-		return _players; 
+		if (_players != null)
+		{
+			return _players;
+		}
+		return null;
+
 	}
 	public void AddDice(IDice dice)
 	{
@@ -41,31 +48,39 @@ public class GameManager
 		{
 			_dices = new List<IDice>();
 		}
-
 		_dices.Add(dice);
 	}
 	public void StartGame()
 	{
-		foreach (var player in _players)
+		if (_players != null && _dices != null)
 		{
-			int totalResult = 0;
-			foreach (var dice in _dices)
+			foreach (var player in _players)
 			{
-				totalResult += dice.Randomize();
+				int totalResult = 0;
+				foreach (var dice in _dices)
+				{
+					totalResult += dice.Randomize();
+				}
+				IPosition currentPosition = player.Value;
+				IPosition newPosition = new Position { x = currentPosition.x + totalResult, y = currentPosition.y + totalResult };
+				_players[player.Key] = newPosition;
 			}
-
-			IPosition currentPosition = player.Value;
-			IPosition newPosition = new Position { x = currentPosition.x + totalResult, y = currentPosition.y + totalResult };
-			_players[player.Key] = newPosition;
+		}
+		else
+		{
+			throw new KeyNotFoundException();
 		}
 	}
 	public IPlayer? CheckWinner()
 	{
-		foreach (var player in _players)
+		if (_players != null)
 		{
-			if (player.Value.x >= 30 || player.Value.y >= 30)
+			foreach (var player in _players)
 			{
-				return player.Key;
+				if (player.Value.x >= 30 || player.Value.y >= 30)
+				{
+					return player.Key;
+				}
 			}
 		}
 		return null;
