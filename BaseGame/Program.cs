@@ -25,7 +25,7 @@ namespace MyGame
 
 			while (gameManager.CheckWinner() == null)
 			{
-				gameManager.StartGame();
+				gameManager.StartRound();
 				Console.WriteLine("Current player positions:");
 				foreach (var player in gameManager.GetPlayers())
 				{

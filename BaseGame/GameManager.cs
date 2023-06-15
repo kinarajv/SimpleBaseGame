@@ -6,6 +6,7 @@ public class GameManager
 {
 	private Dictionary<IPlayer, IPosition>? _players;
 	private List<IDice>? _dices;
+	private IPlayer? _currentPlayer;
 
 	public GameManager()
 	{
@@ -50,12 +51,13 @@ public class GameManager
 		}
 		_dices.Add(dice);
 	}
-	public void StartGame()
+	public void StartRound()
 	{
 		if (_players != null && _dices != null)
 		{
 			foreach (var player in _players)
 			{
+				_currentPlayer = player.Key;
 				int totalResult = 0;
 				foreach (var dice in _dices)
 				{
