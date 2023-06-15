@@ -1,4 +1,3 @@
-using System.Collections;
 using BaseGameInterface;
 namespace BaseGame;
 
@@ -6,7 +5,6 @@ public class GameManager
 {
 	private Dictionary<IPlayer, IPosition>? _players;
 	private List<IDice>? _dices;
-	private IPlayer? _currentPlayer;
 
 	public GameManager()
 	{
@@ -45,10 +43,7 @@ public class GameManager
 	}
 	public void AddDice(IDice dice)
 	{
-		if (_dices == null)
-		{
-			_dices = new List<IDice>();
-		}
+		_dices ??= new List<IDice>();
 		_dices.Add(dice);
 	}
 	public void StartRound()
@@ -57,7 +52,6 @@ public class GameManager
 		{
 			foreach (var player in _players)
 			{
-				_currentPlayer = player.Key;
 				int totalResult = 0;
 				foreach (var dice in _dices)
 				{
